@@ -38,7 +38,7 @@ select month(Date_time), sum(Total_price) from pos
 group by month(Date_time)
 order by sum(Total_price) desc
 
---Growth Rate  (%) in revenue (from Mar’22 to Nov’22)
+--Growth Rate  (%) in revenue (from Marâ€™22 to Novâ€™22)
 WITH mar22 AS (
   SELECT SUM(total_price) [mar22]
   FROM pos
@@ -51,7 +51,7 @@ WITH mar22 AS (
 SELECT ROUND(((mar22 - nov22) / nov22) * 100, 2) AS growth_rate
 FROM nov22, mar22;
 
---Growth Rate  (%) in Orders (from Mar’22 to Nov’22)
+--Growth Rate  (%) in Orders (from Marâ€™22 to Novâ€™22)
 with mar22 as(
 select count(order_id)[mar22] from pos
 where Date_Time between '2022-03-01' and '2022-03-31'),
@@ -119,7 +119,7 @@ select * from cte1
 pivot(
 sum(totalprice) for store_id in ([a],[b],[c]))as pivottable
 
-----Q3. Month-on-month growth in OrderCount and Revenue (from feb'22 to July’22)
+----Q3. Month-on-month growth in OrderCount and Revenue (from feb'22 to Julyâ€™22)
 with cte2 as (select month(date_time)[month],year(date_time)[year],sum(total_price)[price],count(total_price)[orders] from pos
 group by month(date_time), year(date_time) )
 select *,(price-lag(price)over (order by [year],[month]))/price *100 ,(cast(orders as float)-lag(cast(orders as float))over (order by [year],[month]))/cast(orders as float) *100  from cte2
